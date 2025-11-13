@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <ncurses.h>
 
-#define CANTCELLS 5
+#define CANTCELLS 10
 #define ALIVE '#'
 #define DEAD ' '
 
@@ -12,12 +12,12 @@ return n + rand() % (m-n+1);
 
 char** init_matrix(int filas, int columnas){
 char** ret = malloc(sizeof(char*)*(filas+2));
-for (int i = 0; i <= filas+2; i++){
+for (int i = 0; i < filas+2; i++){
 ret[i] = malloc(sizeof(char)*(columnas+2));
-for (int j = 0; j <= columnas+2; j++){
+for (int j = 0; j < columnas+2; j++){
 ret[i][j] = DEAD;
 }
-ret[i][columnas+2] = '\0';
+ret[i][columnas+1] = '\0';
 }
 return ret;
 }
@@ -69,13 +69,25 @@ int columnas = COLS;
 
 char** actual = init_matrix(filas, columnas);
 char** next = init_matrix(filas, columnas);
+char** temp;
 
 randomize(actual, filas, columnas);
 
+timeout(100);
+for(;;){
 for (int i = 1; i <= filas; i++){
-mvprintw(i, 0, "%s", actual[i]);
+mvaddstr(i-1, 0, &actual[i][1]);
+refresh();
+next_frame(actual, next, filas, columnas);
+temp = actual;
+actual = next;
+next = temp;
 }
 
+}
+
+
+getch();
 endwin();
 return 0;
 }
