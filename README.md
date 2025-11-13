@@ -1,1 +1,1 @@
-# gof-linux
+# GOL-linux
