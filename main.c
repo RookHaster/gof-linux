@@ -78,7 +78,10 @@ for(;;){
 for (int i = 1; i <= filas; i++){
 mvaddstr(i-1, 0, &actual[i][1]);
 refresh();
+char ch = getch();
+if (ch == 'q' || ch == 'Q') break;
 next_frame(actual, next, filas, columnas);
+
 temp = actual;
 actual = next;
 next = temp;
