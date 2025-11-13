@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <ncurses.h>
 
 #define CANTCELLS 5
@@ -16,8 +17,17 @@ ret[i] = malloc(sizeof(char)*(columnas+2));
 for (int j = 0; j <= columnas+2; j++){
 ret[i][j] = DEAD;
 }
+ret[i][columnas+2] = '\0';
 }
 return ret;
+}
+
+void randomize(char** matrix, int filas, int columnas){
+for (int i = 1; i <= filas; i++){
+for (int j = 1; j <= columnas; j++){
+if (randint(0, CANTCELLS) == 1) matrix[i][j] = ALIVE;
+}
+}
 }
 
 char dead_alive(char** array, int fila, int columna){
@@ -28,7 +38,7 @@ for (int c = columna-1; c <= columna+1; c++){
 if (array[f][c] == ALIVE) vecinos++;
 }
 }
-if (vecinos<2 || vecinos>3) return return DEAD;
+if (vecinos<2 || vecinos>3) return DEAD;
 return ALIVE;
 }
 else {
@@ -51,8 +61,6 @@ next[i][j] = dead_alive(actual, i, j);
 }
 }
 
-
-
 int main(void){
 initscr();
 
@@ -61,6 +69,12 @@ int columnas = COLS;
 
 char** actual = init_matrix(filas, columnas);
 char** next = init_matrix(filas, columnas);
+
+randomize(actual, filas, columnas);
+
+for (int i = 1; i <= filas; i++){
+mvprintw(i, 0, "%s", actual[i]);
+}
 
 endwin();
 return 0;
