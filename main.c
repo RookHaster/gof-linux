@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <ncurses.h>
 
-#define CANTCELLS 10
+#define CANTCELLS 4
 #define ALIVE '#'
 #define DEAD ' '
 
@@ -63,6 +64,7 @@ next[i][j] = dead_alive(actual, i, j);
 
 int main(void){
 initscr();
+srand((unsigned)time(NULL));
 
 int filas = LINES;
 int columnas = COLS;
@@ -73,11 +75,12 @@ char** temp;
 
 randomize(actual, filas, columnas);
 
-timeout(100);
+timeout(75);
 for(;;){
 for (int i = 1; i <= filas; i++){
 mvaddstr(i-1, 0, &actual[i][1]);
 refresh();
+}
 char ch = getch();
 if (ch == 'q' || ch == 'Q') break;
 next_frame(actual, next, filas, columnas);
@@ -85,8 +88,6 @@ next_frame(actual, next, filas, columnas);
 temp = actual;
 actual = next;
 next = temp;
-}
-
 }
 
 
