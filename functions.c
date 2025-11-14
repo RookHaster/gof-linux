@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define CANTCELLS 4
+// frecuency of alive cells in the initial matrix
+// greater values means less alive cells.
+// lowest value is 0 (zero)
+#define CANTCELLS 3
 #define ALIVE '#'
 #define DEAD ' '
 
@@ -24,7 +27,7 @@ char** init_matrix(int filas, int columnas){
 void randomize(char** matrix, int filas, int columnas){
 	for (int i = 1; i <= filas; i++){
 		for (int j = 1; j <= columnas; j++){
-			if (randint(0, CANTCELLS) == 1) matrix[i][j] = ALIVE;
+			if (randint(0, CANTCELLS) == 0) matrix[i][j] = ALIVE;
 		}
 	}
 }

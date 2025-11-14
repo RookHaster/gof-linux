@@ -4,6 +4,9 @@
 #include <ncurses.h>
 #include "header.h"
 
+// time between frames
+#define TIMER 75
+
 int main(void){
 	initscr();
 	srand((unsigned)time(NULL));
@@ -17,12 +20,12 @@ int main(void){
 
 	randomize(actual, filas, columnas);
 
-	timeout(75);
+	timeout(TIMER);
 	for(;;){
 		for (int i = 1; i <= filas; i++){
-		mvaddstr(i-1, 0, &actual[i][1]);
-		refresh();
+			mvaddstr(i-1, 0, &actual[i][1]);
 		}
+		refresh();
 		char ch = getch();
 		if (ch == 'q' || ch == 'Q') break;
 		next_frame(actual, next, filas, columnas);
