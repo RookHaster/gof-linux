@@ -11,32 +11,34 @@ int main(void){
 	initscr();
 	srand((unsigned)time(NULL));
 
-	int filas = LINES;
-	int columnas = COLS;
+	int rows = LINES;
+	int columns = COLS;
 
-	char** actual = init_matrix(filas, columnas);
-	char** next = init_matrix(filas, columnas);
+	// initializates both actual and next matrix
+	char** actual_matrix = init_matrix(rows, columns);
+	char** next_matrix = init_matrix(rows, columns);
+	// defines a temp variable to swap actual and next matrix
 	char** temp;
 
-	randomize(actual, filas, columnas);
+	randomize(actual_matrix, rows, columns);
 
 	timeout(TIMER);
 	for(;;){
-		for (int i = 1; i <= filas; i++){
-			mvaddstr(i-1, 0, &actual[i][1]);
+		for (int i = 1; i <= rows; i++){
+			// print each row
+			mvaddstr(i-1, 0, &actual_matrix[i][1]);
 		}
 		refresh();
+		// if pressed 'q' or 'Q' it breaks
 		char ch = getch();
 		if (ch == 'q' || ch == 'Q') break;
-		next_frame(actual, next, filas, columnas);
-
-		temp = actual;
-		actual = next;
-		next = temp;
+		//builds the next frame
+		next_frame(actual_matrix, next_matrix, rows, columns);
+		// swap the pointers
+		temp = actual_matrix;
+		actual_matrix = next_matrix;
+		next_matrix = temp;
 	}
-
-
-	getch();
 	endwin();
 	return 0;
 }

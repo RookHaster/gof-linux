@@ -8,57 +8,62 @@
 #define ALIVE '#'
 #define DEAD ' '
 
+// returns a random integer between n and m (both included)
 int randint(int n, int m){
 	return n + rand() % (m-n+1);
 }
 
-char** init_matrix(int filas, int columnas){
-	char** ret = malloc(sizeof(char*)*(filas+2));
-	for (int i = 0; i < filas+2; i++){
-		ret[i] = malloc(sizeof(char)*(columnas+2));
-		for (int j = 0; j < columnas+2; j++){
-			ret[i][j] = DEAD;
+// initializes a matrix of chars, allocating rows * columns
+char** init_matrix(int rows, int columns){
+	char** matrix = malloc(sizeof(char*)*(rows+2));
+	for (int i = 0; i < rows+2; i++){
+		matrix[i] = malloc(sizeof(char)*(columns+2));
+		for (int j = 0; j < columns+2; j++){
+			matrix[i][j] = DEAD;
 		}
-		ret[i][columnas+1] = '\0';
+		matrix[i][columns+1] = '\0';
 	}
-	return ret;
+	return matrix;
 }
 
-void randomize(char** matrix, int filas, int columnas){
-	for (int i = 1; i <= filas; i++){
-		for (int j = 1; j <= columnas; j++){
+// randomizes a matrix with dead and alive cells
+void randomize(char** matrix, int rows, int columns){
+	for (int i = 1; i <= rows; i++){
+		for (int j = 1; j <= columns; j++){
 			if (randint(0, CANTCELLS) == 0) matrix[i][j] = ALIVE;
 		}
 	}
 }
 
-char dead_alive(char** array, int fila, int columna){
-	if (array[fila][columna] == ALIVE){
-		int vecinos = -1;
-		for (int f = fila-1; f <= fila+1; f++){
-			for (int c = columna-1; c <= columna+1; c++){
-				if (array[f][c] == ALIVE) vecinos++;
+// returns the cell status on the next frame based on the rules
+char dead_alive(char** matrix, int row, int column){
+	if (matrix[row][column] == ALIVE){
+		int neighbors = -1;
+		for (int i = row-1; i <= row+1; i++){
+			for (int j = column-1; j <= column+1; j++){
+				if (matrix[i][j] == ALIVE) neighbors++;
 			}
 		}
-	if (vecinos<2 || vecinos>3) return DEAD;
+	if (neighbors<2 || neighbors>3) return DEAD;
 	return ALIVE;
 	}
 	else {
-		int vecinos = 0;
-		for (int f = fila-1; f <= fila+1; f++){
-			for (int c = columna-1; c <= columna+1; c++){
-				if (array[f][c] == ALIVE) vecinos++;
+		int neighbors = 0;
+		for (int i = row-1; i <= row+1; i++){
+			for (int j = column-1; j <= column+1; j++){
+				if (matrix[i][j] == ALIVE) neighbors++;
 			}
 		}
-		if (vecinos == 3) return ALIVE;
+		if (neighbors == 3) return ALIVE;
 		return DEAD;
 	}
 }
 
-void next_frame(char** actual, char** next, int filas, int columnas){
-	for (int i = 1; i <= filas; i++){
-		for (int j = 1; j <= columnas; j++){
-			next[i][j] = dead_alive(actual, i, j);
+// set the next frame calling to dead_alive function for each cell in actual_matrix
+void next_frame(char** actual_matrix, char** next_matrix, int rows, int columns){
+	for (int i = 1; i <= rows; i++){
+		for (int j = 1; j <= columns; j++){
+			next_matrix[i][j] = dead_alive(actual_matrix, i, j);
 		}
 	}
 }
