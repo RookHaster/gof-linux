@@ -67,3 +67,24 @@ void next_frame(char** actual_matrix, char** next_matrix, int rows, int columns)
 		}
 	}
 }
+
+// frees the memory allocated for the matrix
+void free_matrix(char** matrix, int rows){
+	for (int i = 0; i<rows+2; i++) free(matrix[i]);
+	free(matrix);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

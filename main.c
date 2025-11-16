@@ -40,5 +40,7 @@ int main(void){
 		next_matrix = temp;
 	}
 	endwin();
+	free_matrix(actual_matrix, rows);
+	free_matrix(next_matrix, rows);
 	return 0;
 }
