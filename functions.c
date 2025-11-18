@@ -5,7 +5,7 @@
 // greater values means less alive cells.
 // lowest value is 0 (zero)
 #define CANTCELLS 3
-#define ALIVE '#'
+#define ALIVE '@'
 #define DEAD ' '
 
 // returns a random integer between n and m (both included)

@@ -5,7 +5,7 @@
 #include "header.h"
 
 // time between frames
-#define TIMER 75
+#define TIMER 65
 
 int main(void){
 	initscr();
